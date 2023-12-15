@@ -1,1 +1,1 @@
-"# blue-bell" 
+# blue-bell
