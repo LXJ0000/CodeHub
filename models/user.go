@@ -9,3 +9,7 @@ type UserModel struct {
 	Email    string
 	Gender   bool `gorm:"default:true"` // true man
 }
+
+func (UserModel) TableName() string {
+	return `user`
+}

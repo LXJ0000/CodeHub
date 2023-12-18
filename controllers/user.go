@@ -34,15 +34,14 @@ func (UserController) Register(c *gin.Context) {
 		})
 		return
 	}
-	//if len(req.Username) == 0 || len(req.Password) == 0 || len(req.RePassword) == 0 || len(req.Password) != len(req.RePassword) {
-	//	c.JSON(http.StatusOK, gin.H{
-	//		"msg": "请求参数有误",
-	//	})
-	//	return
-	//}
 	//2. 业务处理
 	userService := service.UserService{}
-	userService.Register(&req)
+	if err := userService.Register(&req); err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"msg": err.Error(),
+		})
+		return
+	}
 	//3.返回响应
-	c.JSON(http.StatusOK, gin.H{"ok": "ok"})
+	c.JSON(http.StatusOK, gin.H{"msg": "ok"})
 }
