@@ -12,13 +12,19 @@ import (
 type UserService struct {
 }
 
-func (u *UserService) Login() {
+func (u *UserService) Login(req *models.UserLoginRequest) error {
+	userDao := mysql.NewUserDao()
+	isExist, user := userDao.CheckUserExist(req.Username)
+	if !isExist || !encrypt.CheckPassword(user.Password, req.Password) {
+		return errors.New("用户名或密码错误")
+	}
+	return nil
 }
 
 func (u *UserService) Register(req *models.UserRegisterRequest) error {
 	userDao := mysql.NewUserDao()
 	//1. 判断用户是否存在
-	if isExist := userDao.CheckUserExist(req.Username); isExist {
+	if isExist, _ := userDao.CheckUserExist(req.Username); isExist {
 		return errors.New("用户名已存在")
 	}
 	//2. 生成UID

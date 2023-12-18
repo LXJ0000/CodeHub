@@ -21,13 +21,18 @@ func NewUserDao() *UserDao {
 }
 
 // CheckUserExist 判断用户名是否存在
-func (u *UserDao) CheckUserExist(username string) bool {
-	err := db.Where("user_name=?", username).First(&models.UserModel{}).Error
+func (u *UserDao) CheckUserExist(username string) (bool, *models.UserModel) {
+	var user *models.UserModel
+	err := db.Where("user_name=?", username).First(&user).Error
 	//err == nil 则用户名存在 则返回 true
-	//法则返回false
-	return err == nil
+	//否则返回false
+	if err == nil {
+		return true, user
+	}
+	return false, nil
 }
 
+// Create 添加用户
 func (u *UserDao) Create(user *models.UserModel) error {
 	return db.Create(&user).Error
 }
