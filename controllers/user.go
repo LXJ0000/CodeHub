@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"bluebell/models"
+	"bluebell/pkg/logger"
+	valid "bluebell/pkg/validator"
 	"bluebell/service"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -22,10 +24,11 @@ func (UserController) Register(c *gin.Context) {
 	var req models.UserRegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		// todo 日志
+		logger.Log.Error("请求参数有误")
 		// 判断error是不是validator类型
 		if errs, ok := err.(validator.ValidationErrors); ok {
 			c.JSON(http.StatusOK, gin.H{
-				"msg": removeTopStruct(errs.Translate(trans)), // 翻译错误
+				"msg": valid.RemoveTopStruct(errs.Translate(valid.Trans)), // 翻译错误
 			})
 			return
 		}
@@ -40,6 +43,7 @@ func (UserController) Register(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"msg": err.Error(),
 		})
+		logger.Log.Error("用户注册失败")
 		return
 	}
 	//3.返回响应

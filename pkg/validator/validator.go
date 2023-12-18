@@ -1,4 +1,4 @@
-package controllers
+package validator
 
 import (
 	"fmt"
@@ -13,8 +13,8 @@ import (
 	"strings"
 )
 
-// 定义了一个全局翻译器 T
-var trans ut.Translator
+// Trans 定义了一个全局翻译器 T
+var Trans ut.Translator
 
 // InitTrans 初始化翻译器
 func InitTrans(locale string) {
@@ -40,7 +40,7 @@ func InitTrans(locale string) {
 		// locale 通常取决于 http 请求头的 'Accept-Language'
 		var ok bool
 		// 也可以使用 uni.FindTranslator(...) 传入多个 locale 进行查找
-		trans, ok = uni.GetTranslator(locale)
+		Trans, ok = uni.GetTranslator(locale)
 		if !ok {
 			panic(fmt.Errorf("uni.GetTranslator(%s) failed", locale))
 		}
@@ -49,11 +49,11 @@ func InitTrans(locale string) {
 		// 注册翻译器
 		switch locale {
 		case "en":
-			err = enTranslations.RegisterDefaultTranslations(v, trans)
+			err = enTranslations.RegisterDefaultTranslations(v, Trans)
 		case "zh":
-			err = zhTranslations.RegisterDefaultTranslations(v, trans)
+			err = zhTranslations.RegisterDefaultTranslations(v, Trans)
 		default:
-			err = enTranslations.RegisterDefaultTranslations(v, trans)
+			err = enTranslations.RegisterDefaultTranslations(v, Trans)
 		}
 		if err != nil {
 			panic(fmt.Errorf("trans init failed: %s \n", err.Error()))
@@ -63,8 +63,8 @@ func InitTrans(locale string) {
 	return
 }
 
-// removeTopStruct 去取提示信息中结构体名称
-func removeTopStruct(fields map[string]string) map[string]string {
+// RemoveTopStruct  去取提示信息中结构体名称
+func RemoveTopStruct(fields map[string]string) map[string]string {
 	res := map[string]string{}
 	for field, err := range fields {
 		res[field[strings.Index(field, ".")+1:]] = err

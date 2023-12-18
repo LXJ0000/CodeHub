@@ -6,7 +6,10 @@ import (
 	"net/http"
 )
 
-func Init() *gin.Engine {
+func Init(mode string) *gin.Engine {
+	if mode == gin.ReleaseMode {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	r := gin.Default()
 
 	r.GET("/ping", func(c *gin.Context) {

@@ -6,9 +6,8 @@ machine_id: 1
 log:
   level: "debug"
   filename: "./log/bluebell.log"
-  max_size: 1000
-  max_age: 3600
-  max_backups: 5
+  show_line: true
+  prefix: "bluebell"
 
 mysql:
   host: 127.0.0.1
