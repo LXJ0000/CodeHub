@@ -8,6 +8,9 @@ const (
 	CodeUserExist
 	CodeInvalidPassword
 	CodeServerBusy
+
+	CodeNeedLogin
+	CodeInvalidToken
 )
 
 var codeMsgMap = map[Code]string{
@@ -16,6 +19,8 @@ var codeMsgMap = map[Code]string{
 	CodeUserExist:       "用户名已存在",
 	CodeInvalidPassword: "用户名或密码错误",
 	CodeServerBusy:      "服务繁忙",
+	CodeInvalidToken:    "无效的token",
+	CodeNeedLogin:       "需要登陆",
 }
 
 func getMsg(code Code) string {

@@ -2,6 +2,7 @@ package router
 
 import (
 	"bluebell/controllers"
+	"bluebell/middleware"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -25,6 +26,9 @@ func Init(mode string) *gin.Engine {
 	{
 		user.POST("/login", controllers.UserController{}.Login)
 		user.POST("/register", controllers.UserController{}.Register)
+	}
+	user.Use(middleware.JwtAuthMiddleware())
+	{
 
 	}
 

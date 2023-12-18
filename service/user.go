@@ -4,21 +4,21 @@ import (
 	"bluebell/dao/mysql"
 	"bluebell/models"
 	"bluebell/pkg/encrypt"
+	"bluebell/pkg/jwt"
 	"bluebell/pkg/snowflake"
 	"errors"
-	"fmt"
 )
 
 type UserService struct {
 }
 
-func (u *UserService) Login(req *models.UserLoginRequest) error {
+func (u *UserService) Login(req *models.UserLoginRequest) (token string, err error) {
 	userDao := mysql.NewUserDao()
 	isExist, user := userDao.CheckUserExist(req.Username)
 	if !isExist || !encrypt.CheckPassword(user.Password, req.Password) {
-		return errors.New("用户名或密码错误")
+		return "", errors.New("用户名或密码错误")
 	}
-	return nil
+	return jwt.GenToken(user.UserID, user.UserName)
 }
 
 func (u *UserService) Register(req *models.UserRegisterRequest) error {
@@ -35,7 +35,8 @@ func (u *UserService) Register(req *models.UserRegisterRequest) error {
 		Password: encrypt.GetPassword(req.Password),
 	}
 	//3. 入库
-	fmt.Println(user)
-	err := userDao.Create(user)
-	return err
+	if err := userDao.Create(user); err != nil {
+		return err
+	}
+	return nil
 }

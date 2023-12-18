@@ -28,13 +28,14 @@ func (UserController) Login(c *gin.Context) {
 	}
 	//2. 业务处理
 	userService := service.UserService{}
-	if err := userService.Login(&req); err != nil {
+	token, err := userService.Login(&req)
+	if err != nil {
 		types.ResponseError(c, types.CodeInvalidPassword)
 		logger.Log.Error(req.Username, ": 用户名或密码错误")
 		return
 	}
 	//3.返回响应
-	types.ResponseSuccess(c)
+	types.ResponseSuccessWithToken(c, token)
 }
 
 func (UserController) Register(c *gin.Context) {
