@@ -2,8 +2,8 @@ package models
 
 type CommunityModel struct {
 	Model
-	CommunityID   int64  `gorm:"not null"`
-	CommunityName string `gorm:"not null"`
+	CommunityID   int64  `gorm:"not null,unique"`
+	CommunityName string `gorm:"not null,unique"`
 	Introduction  string `gorm:""`
 }
 

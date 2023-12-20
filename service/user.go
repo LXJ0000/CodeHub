@@ -14,7 +14,7 @@ import (
 type UserService struct {
 }
 
-func (u *UserService) Login(c *gin.Context, req *models.UserLoginRequest) {
+func (u *UserService) Login(c *gin.Context, req *models.UserLoginReq) {
 	userDao := mysql.NewUserDao()
 	isExist, user := userDao.CheckUserExist(req.Username)
 	if !isExist || !encrypt.CheckPassword(user.Password, req.Password) {
@@ -32,7 +32,7 @@ func (u *UserService) Login(c *gin.Context, req *models.UserLoginRequest) {
 
 }
 
-func (u *UserService) Register(c *gin.Context, req *models.UserRegisterRequest) {
+func (u *UserService) Register(c *gin.Context, req *models.UserRegisterReq) {
 	userDao := mysql.NewUserDao()
 	//1. 判断用户是否存在
 	if isExist, _ := userDao.CheckUserExist(req.Username); isExist {

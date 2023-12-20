@@ -42,6 +42,11 @@ func Init(mode string) *gin.Engine {
 			community.GET("/:id", controllers.CommunityController{}.Info)
 		}
 
+		//	帖子接口
+		post := v1.Group("/post")
+		{
+			post.POST("/", controllers.PostController{}.Create)
+		}
 	}
 	return r
 }

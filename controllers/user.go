@@ -15,7 +15,7 @@ type UserController struct {
 
 func (UserController) Login(c *gin.Context) {
 	//1. 参数校验
-	var req models.UserLoginRequest
+	var req *models.UserLoginReq
 	if err := c.ShouldBindJSON(&req); err != nil {
 		logger.Log.Error("请求参数有误")
 
@@ -28,12 +28,12 @@ func (UserController) Login(c *gin.Context) {
 	}
 	//2. 业务处理
 	var serv service.UserService
-	serv.Login(c, &req)
+	serv.Login(c, req)
 }
 
 func (UserController) Register(c *gin.Context) {
 	//1. 参数获取校验
-	var req models.UserRegisterRequest
+	var req *models.UserRegisterReq
 	if err := c.ShouldBindJSON(&req); err != nil {
 		logger.Log.Error("请求参数有误")
 		// 判断error是不是validator类型
@@ -46,6 +46,6 @@ func (UserController) Register(c *gin.Context) {
 	}
 	//2. 业务处理
 	var serv service.UserService
-	serv.Register(c, &req)
+	serv.Register(c, req)
 
 }

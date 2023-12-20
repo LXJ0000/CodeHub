@@ -8,7 +8,7 @@ import (
 
 var ErrorUserNotLogin = errors.New("用户未登录")
 
-func getCurrentUser(c *gin.Context) (err error, userID int64) {
+func getCurrentUser(c *gin.Context) (userID int64, err error) {
 	uid, ok := c.Get(middleware.CtxUserIDKey)
 	if !ok {
 		err = ErrorUserNotLogin

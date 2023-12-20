@@ -20,12 +20,12 @@ func NewCommunityDao() *CommunityDao {
 	return communityDao
 }
 
-func (c *CommunityDao) GetList() (list []*models.Community, err error) {
+func (c *CommunityDao) GetList() (list []*models.CommunityResp, err error) {
 	err = db.Model(&models.CommunityModel{}).Find(&list).Error
 	return
 }
 
-func (c *CommunityDao) GetInfo(id int64) (info *models.CommunityInfo, err error) {
+func (c *CommunityDao) GetInfo(id int64) (info *models.CommunityInfoResp, err error) {
 	err = db.Model(&models.CommunityModel{}).Where("community_id=?", id).First(&info).Error
 	return
 }

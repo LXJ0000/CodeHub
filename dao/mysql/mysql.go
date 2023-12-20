@@ -31,6 +31,7 @@ func MakeMigration() {
 	if err := db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(
 		&models.UserModel{},
 		&models.CommunityModel{},
+		&models.PostModel{},
 	); err != nil {
 		panic(err)
 	}
