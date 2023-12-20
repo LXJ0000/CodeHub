@@ -1,7 +1,5 @@
 package models
 
-import "time"
-
 //Community
 
 type Community struct {
@@ -11,7 +9,7 @@ type Community struct {
 
 type CommunityInfo struct {
 	Community
-	Introduction string    `json:"introduction,omitempty"`
-	CreatedAt    time.Time `json:"created_at,omitempty"`
-	UpdatedAt    time.Time `json:"updated_at,omitempty"`
+	Introduction string `json:"introduction,omitempty"`
+	CreatedAt    int64  `json:"created_at,omitempty"`
+	UpdatedAt    int64  `json:"updated_at,omitempty"`
 }
