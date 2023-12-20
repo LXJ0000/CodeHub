@@ -24,5 +24,5 @@ redis:
   db: 0
 
 auth:
-  exp: 604800
+  exp: 24 # 7hour
   secret: "my name is ..."

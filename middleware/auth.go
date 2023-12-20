@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"bluebell/pkg/jwt"
+	"bluebell/pkg/logger"
 	"bluebell/pkg/types"
 	"github.com/gin-gonic/gin"
 	"strings"
@@ -19,18 +20,21 @@ func JwtAuthMiddleware() func(c *gin.Context) {
 		authHeader := c.Request.Header.Get("Authorization")
 		if authHeader == "" {
 			types.ResponseError(c, types.CodeInvalidToken)
+			logger.Log.Error("Authorization 为空")
 			c.Abort()
 			return
 		}
 		parts := strings.SplitN(authHeader, " ", 2)
 		if !(len(parts) == 2 && parts[0] == "Bearer") {
 			types.ResponseError(c, types.CodeInvalidToken)
+			logger.Log.Error("Authorization 格式有误")
 			c.Abort()
 			return
 		}
 		claim, err := jwt.ParseToken(parts[1])
 		if err != nil {
 			types.ResponseError(c, types.CodeInvalidToken)
+			logger.Log.Error("claims 解析失败")
 			c.Abort()
 			return
 		}

@@ -39,6 +39,7 @@ func Init(mode string) *gin.Engine {
 		community := v1.Group("/community")
 		{
 			community.GET("/", controllers.CommunityController{}.List)
+			community.GET("/:id", controllers.CommunityController{}.Info)
 		}
 
 	}

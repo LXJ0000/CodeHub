@@ -22,12 +22,13 @@ func (u *UserService) Login(c *gin.Context, req *models.UserLoginRequest) {
 		types.ResponseError(c, types.CodeInvalidPassword)
 		return
 	}
-	if token, err := jwt.GenToken(user.UserID, user.UserName); err == nil {
+	token, err := jwt.GenToken(user.UserID, user.UserName)
+	if err != nil {
 		logger.Log.Error("Token有误")
-		types.ResponseSuccessWithToken(c, token)
+		types.ResponseError(c, types.CodeInvalidToken)
 		return
 	}
-	types.ResponseError(c, types.CodeInvalidToken)
+	types.ResponseSuccessWithToken(c, token)
 
 }
 
