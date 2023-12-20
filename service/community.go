@@ -13,7 +13,7 @@ type CommunityService struct {
 }
 
 func (CommunityService) List(c *gin.Context) {
-	var communityDao mysql.CommunityDao
+	communityDao := mysql.NewCommunityDao()
 	list, err := communityDao.GetList()
 	if err != nil {
 		logger.Log.Error("查询失败")
@@ -29,7 +29,8 @@ func (CommunityService) Info(c *gin.Context, rId string) {
 		logger.Log.Error("请求参数有误")
 		return
 	}
-	var communityDao mysql.CommunityDao
+	communityDao := mysql.NewCommunityDao()
+
 	info, err := communityDao.GetInfo(id)
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {

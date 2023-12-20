@@ -32,3 +32,14 @@ func (PostController) Create(c *gin.Context) {
 	}
 	serv.Create(c, req, authorId)
 }
+
+func (PostController) List(c *gin.Context) {
+	var serv service.PostService
+	serv.List(c)
+}
+
+func (PostController) Info(c *gin.Context) {
+	rId := c.Param("id")
+	var serv service.PostService
+	serv.Info(c, rId)
+}

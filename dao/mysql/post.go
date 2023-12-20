@@ -23,3 +23,13 @@ func NewPostDao() *PostDao {
 func (p *PostDao) Create(post *models.PostModel) error {
 	return db.Create(&post).Error
 }
+
+func (p *PostDao) GetList() (list []*models.PostResp, err error) {
+	err = db.Model(&models.PostModel{}).Find(&list).Error
+	return
+}
+
+func (p *PostDao) GetInfo(pid int64) (info *models.PostResp, err error) {
+	err = db.Model(&models.PostModel{}).Where("post_id=?", pid).First(&info).Error
+	return
+}

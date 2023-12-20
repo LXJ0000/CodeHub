@@ -15,6 +15,10 @@ const (
 	// Community
 
 	CodeInvalidCommunityId
+
+	//	Post
+
+	CodeInvalidPostId
 )
 
 var codeMsgMap = map[Code]string{
@@ -26,6 +30,7 @@ var codeMsgMap = map[Code]string{
 	CodeInvalidToken:       "无效的token",
 	CodeNeedLogin:          "需要登陆",
 	CodeInvalidCommunityId: "无效的社区ID",
+	CodeInvalidPostId:      "无效的帖子ID",
 }
 
 func getMsg(code Code) string {

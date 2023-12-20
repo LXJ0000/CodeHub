@@ -36,3 +36,12 @@ func (u *UserDao) CheckUserExist(username string) (bool, *models.UserModel) {
 func (u *UserDao) Create(user *models.UserModel) error {
 	return db.Create(&user).Error
 }
+
+func (u *UserDao) GetInfo(uid int64) (user *models.UserInfoResp, err error) {
+	err = db.Model(&models.UserModel{}).Where("user_id=?", uid).First(&user).Error
+	return
+}
+func (u *UserDao) GetUserName(uid int64) (username string, err error) {
+	err = db.Model(&models.UserModel{}).Select("user_name").Where("user_id=?", uid).First(&username).Error
+	return
+}
