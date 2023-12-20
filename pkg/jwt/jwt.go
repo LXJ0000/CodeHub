@@ -1,14 +1,16 @@
 package jwt
 
 import (
+	"bluebell/conf"
 	"errors"
 	"github.com/golang-jwt/jwt/v5"
 	"time"
 )
 
-const TokenExpireDuration = time.Hour * 2
-
-var mySecret = []byte("my name is ...")
+var (
+	TokenExpireDuration = time.Duration(conf.Conf.Auth.Exp)
+	mySecret            = []byte(conf.Conf.Auth.Secret)
+)
 
 type MyClaims struct {
 	UserID   int64  `json:"user_id"`

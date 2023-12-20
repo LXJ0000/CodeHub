@@ -28,7 +28,10 @@ func Init() {
 }
 
 func MakeMigration() {
-	if err := db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.UserModel{}); err != nil {
+	if err := db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(
+		&models.UserModel{},
+		&models.CommunityModel{},
+	); err != nil {
 		panic(err)
 	}
 }

@@ -17,6 +17,7 @@ type AppConfig struct {
 	LogConfig   `mapstructure:"log"`
 	MySQLConfig `mapstructure:"mysql"`
 	RedisConfig `mapstructure:"redis"`
+	Auth        `mapstructure:"auth"`
 }
 
 type MySQLConfig struct {
@@ -43,6 +44,11 @@ type LogConfig struct {
 	Filename string `mapstructure:"filename"`
 	ShowLine bool   `mapstructure:"show_line"`
 	Prefix   string `mapstructure:"prefix"`
+}
+
+type Auth struct {
+	Exp    int64  `mapstructure:"exp"`
+	Secret string `mapstructure:"secret"`
 }
 
 func Init() {

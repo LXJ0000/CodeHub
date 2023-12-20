@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"bluebell/controllers/types"
 	"bluebell/models"
 	"bluebell/pkg/logger"
+	"bluebell/pkg/types"
 	valid "bluebell/pkg/validator"
 	"bluebell/service"
 	"github.com/gin-gonic/gin"
@@ -27,15 +27,8 @@ func (UserController) Login(c *gin.Context) {
 		return
 	}
 	//2. 业务处理
-	userService := service.UserService{}
-	token, err := userService.Login(&req)
-	if err != nil {
-		types.ResponseError(c, types.CodeInvalidPassword)
-		logger.Log.Error(req.Username, ": 用户名或密码错误")
-		return
-	}
-	//3.返回响应
-	types.ResponseSuccessWithToken(c, token)
+	var serv service.UserService
+	serv.Login(c, &req)
 }
 
 func (UserController) Register(c *gin.Context) {
@@ -52,12 +45,7 @@ func (UserController) Register(c *gin.Context) {
 		return
 	}
 	//2. 业务处理
-	userService := service.UserService{}
-	if err := userService.Register(&req); err != nil {
-		types.ResponseError(c, types.CodeServerBusy)
-		logger.Log.Error("用户注册失败")
-		return
-	}
-	//3.返回响应
-	types.ResponseSuccess(c)
+	var serv service.UserService
+	serv.Register(c, &req)
+
 }

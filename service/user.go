@@ -5,27 +5,39 @@ import (
 	"bluebell/models"
 	"bluebell/pkg/encrypt"
 	"bluebell/pkg/jwt"
+	"bluebell/pkg/logger"
 	"bluebell/pkg/snowflake"
-	"errors"
+	"bluebell/pkg/types"
+	"github.com/gin-gonic/gin"
 )
 
 type UserService struct {
 }
 
-func (u *UserService) Login(req *models.UserLoginRequest) (token string, err error) {
+func (u *UserService) Login(c *gin.Context, req *models.UserLoginRequest) {
 	userDao := mysql.NewUserDao()
 	isExist, user := userDao.CheckUserExist(req.Username)
 	if !isExist || !encrypt.CheckPassword(user.Password, req.Password) {
-		return "", errors.New("用户名或密码错误")
+		logger.Log.Error("用户名或密码错误")
+		types.ResponseError(c, types.CodeInvalidPassword)
+		return
 	}
-	return jwt.GenToken(user.UserID, user.UserName)
+	if token, err := jwt.GenToken(user.UserID, user.UserName); err == nil {
+		logger.Log.Error("Token有误")
+		types.ResponseSuccessWithToken(c, token)
+		return
+	}
+	types.ResponseError(c, types.CodeInvalidToken)
+
 }
 
-func (u *UserService) Register(req *models.UserRegisterRequest) error {
+func (u *UserService) Register(c *gin.Context, req *models.UserRegisterRequest) {
 	userDao := mysql.NewUserDao()
 	//1. 判断用户是否存在
 	if isExist, _ := userDao.CheckUserExist(req.Username); isExist {
-		return errors.New("用户名已存在")
+		logger.Log.Error("用户名已存在")
+		types.ResponseError(c, types.CodeUserExist)
+		return
 	}
 	//2. 生成UID
 	userID := snowflake.GenID()
@@ -36,7 +48,9 @@ func (u *UserService) Register(req *models.UserRegisterRequest) error {
 	}
 	//3. 入库
 	if err := userDao.Create(user); err != nil {
-		return err
+		logger.Log.Error("用户注册失败")
+		types.ResponseError(c, types.CodeServerBusy)
+		return
 	}
-	return nil
+	types.ResponseSuccess(c)
 }

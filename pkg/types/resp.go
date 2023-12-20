@@ -40,3 +40,10 @@ func ResponseSuccessWithToken(c *gin.Context, token string) {
 		},
 	})
 }
+func ResponseSuccessWithData(c *gin.Context, data interface{}) {
+	c.JSON(http.StatusOK, &Response{
+		Code: CodeSUCCESS,
+		Msg:  getMsg(CodeSUCCESS),
+		Data: data,
+	})
+}

@@ -22,3 +22,7 @@ redis:
   host: 127.0.0.1
   port: 6379
   db: 0
+
+auth:
+  exp: 604800
+  secret: "my name is ..."
