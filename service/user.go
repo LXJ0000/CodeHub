@@ -55,3 +55,13 @@ func (u *UserService) Register(c *gin.Context, req *models.UserRegisterReq) {
 	}
 	types.ResponseSuccess(c)
 }
+
+func (u *UserService) Info(c *gin.Context, uid int64) {
+	userDao := mysql.NewUserDao()
+	info, err := userDao.GetInfo(uid)
+	if err != nil {
+		types.ResponseError(c, types.CodeUserNotExist)
+		return
+	}
+	types.ResponseSuccessWithData(c, info)
+}

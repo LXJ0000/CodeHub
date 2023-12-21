@@ -35,6 +35,12 @@ func Init(mode string) *gin.Engine {
 	}
 	v1.Use(middleware.JwtAuthMiddleware())
 	{
+		// 用户接口
+		user := v1.Group("/user")
+		{
+			user.GET("/", controllers.UserController{}.Info)
+		}
+
 		// 社区接口
 		community := v1.Group("/community")
 		{

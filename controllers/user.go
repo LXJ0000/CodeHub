@@ -49,3 +49,13 @@ func (UserController) Register(c *gin.Context) {
 	serv.Register(c, req)
 
 }
+
+func (UserController) Info(c *gin.Context) {
+	uid, err := getCurrentUser(c)
+	if err != nil {
+		types.ResponseError(c, types.CodeInvalidToken)
+		return
+	}
+	var serv service.UserService
+	serv.Info(c, uid)
+}
