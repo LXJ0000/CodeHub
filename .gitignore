@@ -22,3 +22,5 @@ vendor/
 tmp
 
 bluebell_backend
+
+*.bat

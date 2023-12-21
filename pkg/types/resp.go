@@ -11,6 +11,11 @@ type Response struct {
 	Data interface{} `json:"data,omitempty"`
 }
 
+type ListResp struct {
+	Total int64       `json:"total"`
+	Data  interface{} `json:"data"`
+}
+
 func ResponseError(c *gin.Context, code Code) {
 	c.JSON(http.StatusOK, &Response{
 		Code: code,
@@ -45,5 +50,16 @@ func ResponseSuccessWithData(c *gin.Context, data interface{}) {
 		Code: CodeSUCCESS,
 		Msg:  getMsg(CodeSUCCESS),
 		Data: data,
+	})
+}
+
+func ResponseSuccessWithList(c *gin.Context, total int64, list interface{}) {
+	c.JSON(http.StatusOK, &Response{
+		Code: CodeSUCCESS,
+		Msg:  getMsg(CodeSUCCESS),
+		Data: ListResp{
+			Total: total,
+			Data:  list,
+		},
 	})
 }

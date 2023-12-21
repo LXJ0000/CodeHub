@@ -34,8 +34,14 @@ func (PostController) Create(c *gin.Context) {
 }
 
 func (PostController) List(c *gin.Context) {
+	var req *models.PostListReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		types.ResponseError(c, types.CodeInvalidParams)
+		logger.Log.Info(*req)
+		return
+	}
 	var serv service.PostService
-	serv.List(c)
+	serv.List(c, req)
 }
 
 func (PostController) Info(c *gin.Context) {

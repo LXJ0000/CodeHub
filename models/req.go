@@ -1,5 +1,12 @@
 package models
 
+//Common
+
+type Page struct {
+	Size int `json:"size"`
+	Num  int `json:"num"`
+}
+
 //用户
 
 type UserRegisterReq struct {
@@ -19,4 +26,9 @@ type PostCreateReq struct {
 	Title       string `json:"title" binding:"required"`
 	Content     string `json:"content" binding:"required"`
 	CommunityID int64  `json:"community_id" binding:"required"`
+}
+
+type PostListReq struct {
+	Page
+	CommunityID int64 `json:"community_id"`
 }

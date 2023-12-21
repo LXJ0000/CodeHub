@@ -32,15 +32,30 @@ func (PostService) Create(c *gin.Context, req *models.PostCreateReq, authorID in
 	types.ResponseSuccess(c)
 }
 
-func (PostService) List(c *gin.Context) {
+func (PostService) List(c *gin.Context, req *models.PostListReq) {
 	postDao := mysql.NewPostDao()
-	list, err := postDao.GetList()
+
+	if req.Size == 0 {
+		req.Size = 5
+	}
+	condition := make(map[string]interface{})
+	if req.CommunityID != 0 {
+		condition["community_id"] = req.CommunityID
+	}
+	total, err := postDao.GetCountByCondition(condition)
+	if err != nil {
+		logger.Log.Error("帖子数量查询失败")
+		types.ResponseError(c, types.CodeServerBusy)
+		return
+	}
+
+	list, err := postDao.GetList(condition, &req.Page)
 	if err != nil {
 		logger.Log.Error("帖子查询失败")
 		types.ResponseError(c, types.CodeServerBusy)
 		return
 	}
-	types.ResponseSuccessWithData(c, list)
+	types.ResponseSuccessWithList(c, total, list)
 }
 func (PostService) Info(c *gin.Context, rId string) {
 	id, err := strconv.ParseInt(rId, 10, 64)
