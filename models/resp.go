@@ -3,7 +3,7 @@ package models
 //用户
 
 type UserResp struct {
-	UserID   int64  `json:"user_id"`
+	UserID   int64  `json:"user_id,string"`
 	UserName string `json:"user_name"`
 	NickName string `json:"nick_name"`
 }
@@ -17,7 +17,7 @@ type UserInfoResp struct {
 //社区
 
 type CommunityResp struct {
-	CommunityID   int64  `json:"community_id"`
+	CommunityID   int64  `json:"community_idg"`
 	CommunityName string `json:"community_name"`
 }
 
@@ -31,10 +31,10 @@ type CommunityInfoResp struct {
 // 帖子
 
 type PostResp struct {
-	PostID      int64  `json:"post_id"`
+	PostID      int64  `json:"post_id,string"`
 	Title       string `json:"title"`
 	Content     string `json:"content"`
-	AuthorID    int64  `json:"author_id"`
+	AuthorID    int64  `json:"author_id,string"`
 	CommunityID int64  `json:"-"`
 }
 
