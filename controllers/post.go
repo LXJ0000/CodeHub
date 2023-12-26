@@ -49,3 +49,21 @@ func (PostController) Info(c *gin.Context) {
 	var serv service.PostService
 	serv.Info(c, rId)
 }
+
+func (PostController) Vote(c *gin.Context) {
+	//	参数校验
+	var req *models.VoteReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		if errs, ok := err.(validator.ValidationErrors); ok { // 类型断言
+			types.ResponseErrorWithMsg(c, types.CodeInvalidParams, valid.RemoveTopStruct(errs.Translate(valid.Trans)))
+			return
+		}
+		types.ResponseError(c, types.CodeInvalidParams)
+		logger.Log.Info(*req)
+		return
+	}
+	//
+	var serv service.PostService
+	serv.Vote(c, req)
+	//
+}

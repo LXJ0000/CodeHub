@@ -32,3 +32,8 @@ type PostListReq struct {
 	Page
 	CommunityID int64 `json:"community_id"`
 }
+
+type VoteReq struct {
+	PostID    int64 `json:"post_id,string" binding:"required"`
+	Direction int8  `json:"direction,string" binding:"required,oneof=-1 0 1"` //赞成 1 or 反对 -1 or 取消投票 0
+}

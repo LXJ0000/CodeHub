@@ -91,3 +91,9 @@ func (PostService) Info(c *gin.Context, rId string) {
 	}
 	types.ResponseSuccessWithData(c, info)
 }
+
+func (PostService) Vote(c *gin.Context, req *models.VoteReq) {
+	logger.Log.Info(req)
+
+	types.ResponseSuccess(c)
+}
