@@ -24,3 +24,5 @@ tmp
 bluebell_backend
 
 *.bat
+
+*.yaml
