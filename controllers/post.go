@@ -62,8 +62,15 @@ func (PostController) Vote(c *gin.Context) {
 		logger.Log.Info(*req)
 		return
 	}
+	userID, err := getCurrentUser(c)
+	if err != nil {
+		types.ResponseError(c, types.CodeInvalidToken)
+		logger.Log.Error(err.Error())
+		return
+	}
+
 	//
 	var serv service.PostService
-	serv.Vote(c, req)
+	serv.Vote(c, userID, req)
 	//
 }

@@ -92,9 +92,25 @@ func (PostService) Info(c *gin.Context, rId string) {
 	types.ResponseSuccessWithData(c, info)
 }
 
-func (PostService) Vote(c *gin.Context, req *models.VoteReq) {
-	//1
-	//-1
-	//0
+func (PostService) Vote(c *gin.Context, userID int64, req *models.VoteReq) {
+	/*
+		基于用户投票的相关算法 https://ruanyifeng.com/blog/algorithm/
+		投一票就加432分  86422/200 -> 200个赞则给帖子续一天 - 来自《Redis实战》
+
+		- direction = 1
+			- 没点过
+			- 点过反对
+		- direction = 0
+			- 取消赞成
+			- 取消反对
+		- direction = -1
+			- 没点过
+			- 点过赞成
+
+		投票的限制: 每个帖子自发表之日起一个星期内允许用户投票，超过一个星期不允许再投票
+		1. 到期之后将Redis中保存的赞成票数以及反对票数存储到Mysql中
+		2. 到期之后删除redis.KeyPostVotedPrefix
+	*/
+
 	types.ResponseSuccess(c)
 }
