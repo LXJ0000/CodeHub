@@ -93,7 +93,8 @@ func (PostService) Info(c *gin.Context, rId string) {
 }
 
 func (PostService) Vote(c *gin.Context, req *models.VoteReq) {
-	logger.Log.Info(req)
-
+	//1
+	//-1
+	//0
 	types.ResponseSuccess(c)
 }

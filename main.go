@@ -3,6 +3,7 @@ package main
 import (
 	"bluebell/conf"
 	"bluebell/dao/mysql"
+	"bluebell/dao/redis"
 	"bluebell/pkg/logger"
 	"bluebell/pkg/snowflake"
 	"bluebell/pkg/validator"
@@ -15,6 +16,7 @@ func main() {
 	logger.Init()
 	snowflake.Init(conf.Conf.StartTime, conf.Conf.MachineID)
 	mysql.Init()
+	redis.Init()
 	validator.InitTrans("zh") // todo add config file
 
 	r := router.Init(conf.Conf.Mode)
