@@ -59,7 +59,6 @@ func (PostController) Vote(c *gin.Context) {
 			return
 		}
 		types.ResponseError(c, types.CodeInvalidParams)
-		logger.Log.Info(*req)
 		return
 	}
 	userID, err := getCurrentUser(c)

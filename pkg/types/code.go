@@ -20,6 +20,7 @@ const (
 	//	Post
 
 	CodeInvalidPostId
+	CodeVoteTimeExpire
 )
 
 var codeMsgMap = map[Code]string{
@@ -33,6 +34,7 @@ var codeMsgMap = map[Code]string{
 	CodeNeedLogin:          "需要登陆",
 	CodeInvalidCommunityId: "无效的社区ID",
 	CodeInvalidPostId:      "无效的帖子ID",
+	CodeVoteTimeExpire:     "投票时间已过",
 }
 
 func getMsg(code Code) string {
