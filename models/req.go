@@ -22,6 +22,11 @@ type UserLoginReq struct {
 
 // 帖子
 
+const (
+	OrderTime  = "time"
+	OrderScore = "score"
+)
+
 type PostCreateReq struct {
 	Title       string `json:"title" binding:"required"`
 	Content     string `json:"content" binding:"required"`
@@ -36,4 +41,10 @@ type PostListReq struct {
 type VoteReq struct {
 	PostID    int64 `json:"post_id,string" binding:"required"`
 	Direction int8  `json:"direction,string" binding:"oneof=0 1 -1"` //赞成 1 or 反对 -1 or 取消投票 0
+}
+
+type PostListProReq struct {
+	Page  int64  `form:"page"`
+	Size  int64  `form:"size"`
+	Order string `form:"order"`
 }

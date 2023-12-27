@@ -64,6 +64,44 @@ func (PostService) List(c *gin.Context, req *models.PostListReq) {
 	types.ResponseSuccessWithList(c, total, list)
 }
 
+func (PostService) ListPro(c *gin.Context, req *models.PostListProReq) {
+	//1. 查询post_id
+	postDao := redis.NewPostDao()
+	ids, err := postDao.GetPostIDInorder(req)
+	if err != nil {
+		logger.Log.Error("ID 列表查询失败")
+		types.ResponseError(c, types.CodeServerBusy)
+		return
+	}
+	//2. 数据库查询详细信息
+	postSqlDao := mysql.NewPostDao()
+	list, err := postSqlDao.GetPostListWithIDList(ids)
+	if err != nil {
+		logger.Log.Error("数据库帖子列表查询失败")
+		types.ResponseError(c, types.CodeServerBusy)
+		return
+	}
+
+	var posts []*models.PostInfoResp
+	authorDao := mysql.NewUserDao()
+	communityDao := mysql.NewCommunityDao()
+	for _, post := range list {
+		authorName, _ := authorDao.GetUserName(post.AuthorID)
+		community, _ := communityDao.GetInfo(post.CommunityID)
+		info := &models.PostInfoResp{
+			AuthorName:        authorName,
+			PostResp:          post,
+			CommunityInfoResp: community,
+		}
+		posts = append(posts, info)
+	}
+
+	//
+	total, _ := postSqlDao.GetCountByCondition(nil)
+
+	types.ResponseSuccessWithList(c, total, list)
+}
+
 func (PostService) Info(c *gin.Context, rId string) {
 	id, err := strconv.ParseInt(rId, 10, 64)
 	if err != nil {

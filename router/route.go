@@ -56,6 +56,8 @@ func Init(mode string) *gin.Engine {
 			post.GET("/:id", controllers.PostController{}.Info)
 
 			post.POST("/vote", controllers.PostController{}.Vote)
+
+			post.GET("/list-pro", controllers.PostController{}.ListPro)
 		}
 	}
 	return r

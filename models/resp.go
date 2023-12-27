@@ -35,11 +35,15 @@ type PostResp struct {
 	Title       string `json:"title"`
 	Content     string `json:"content"`
 	AuthorID    int64  `json:"author_id,string"`
-	CommunityID int64  `json:"-"`
+	CommunityID int64  `json:"community_id"`
+	CreatedAt   int64  `json:"created_at"`
 }
 
 type PostInfoResp struct {
 	AuthorName string `json:"author_name"`
 	*PostResp
 	*CommunityInfoResp `json:"community"`
+}
+
+type PostInfoProResp struct {
 }

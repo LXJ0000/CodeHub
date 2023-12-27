@@ -44,6 +44,29 @@ func (PostController) List(c *gin.Context) {
 	serv.List(c, req)
 }
 
+// ListPro 帖子列表接口升级版
+// 按照时间排序 or 分数排序
+//  1. 获取参数
+//  2. Redis查询post_id
+//  3. 根据post_id去数据库查询帖子详细信息
+func (PostController) ListPro(c *gin.Context) {
+	// /api/v1/post-pro?page=1&size=10&order=time
+	//默认
+	req := &models.PostListProReq{
+		Page:  1,
+		Size:  10,
+		Order: models.OrderTime, // magic string
+	}
+	if err := c.ShouldBindQuery(&req); err != nil {
+		types.ResponseError(c, types.CodeInvalidParams)
+		logger.Log.Error("请求参数有误")
+		return
+	}
+	var serv service.PostService
+	serv.ListPro(c, req)
+
+}
+
 func (PostController) Info(c *gin.Context) {
 	rId := c.Param("id")
 	var serv service.PostService
