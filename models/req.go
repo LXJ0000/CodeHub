@@ -44,7 +44,8 @@ type VoteReq struct {
 }
 
 type PostListProReq struct {
-	Page  int64  `form:"page"`
-	Size  int64  `form:"size"`
-	Order string `form:"order"`
+	Page        int64  `form:"page"`
+	Size        int64  `form:"size"`
+	Order       string `form:"order"`
+	CommunityID int64  `form:"community_id"`
 }

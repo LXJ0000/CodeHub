@@ -86,21 +86,3 @@ func VoteForPost(c *gin.Context, userRID int64, req *models.VoteReq) {
 	}
 	types.ResponseSuccess(c)
 }
-
-func CreatePostWithTime(postRID int64) error {
-	postID := strconv.FormatInt(postRID, 10)
-	//开启事务
-	pipeline := client.TxPipeline()
-	//帖子时间
-	pipeline.ZAdd(KeyPostTimeZSet, redis.Z{
-		Score:  float64(time.Now().Unix()),
-		Member: postID,
-	})
-	//帖子分数
-	pipeline.ZAdd(KeyPostScoreZSet, redis.Z{
-		Score:  float64(time.Now().Unix()),
-		Member: postID,
-	})
-	_, err := pipeline.Exec()
-	return err
-}

@@ -52,12 +52,9 @@ func Init(mode string) *gin.Engine {
 		post := v1.Group("/post")
 		{
 			post.POST("/", controllers.PostController{}.Create)
-			post.POST("/list", controllers.PostController{}.List)
+			post.GET("/", controllers.PostController{}.List)
 			post.GET("/:id", controllers.PostController{}.Info)
-
 			post.POST("/vote", controllers.PostController{}.Vote)
-
-			post.GET("/list-pro", controllers.PostController{}.ListPro)
 		}
 	}
 	return r

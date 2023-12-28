@@ -23,35 +23,19 @@ func (PostController) Create(c *gin.Context) {
 		types.ResponseError(c, types.CodeInvalidParams)
 		return
 	}
-	var serv service.PostService
 	authorId, err := getCurrentUser(c)
 	if err != nil {
 		types.ResponseError(c, types.CodeInvalidToken)
 		logger.Log.Error(err.Error())
 		return
 	}
+
+	var serv service.PostService
 	serv.Create(c, req, authorId)
 }
 
 func (PostController) List(c *gin.Context) {
-	var req *models.PostListReq
-	if err := c.ShouldBindJSON(&req); err != nil {
-		types.ResponseError(c, types.CodeInvalidParams)
-		logger.Log.Info(*req)
-		return
-	}
-	var serv service.PostService
-	serv.List(c, req)
-}
-
-// ListPro 帖子列表接口升级版
-// 按照时间排序 or 分数排序
-//  1. 获取参数
-//  2. Redis查询post_id
-//  3. 根据post_id去数据库查询帖子详细信息
-func (PostController) ListPro(c *gin.Context) {
-	// /api/v1/post-pro?page=1&size=10&order=time
-	// 默认值
+	// GET /api/v1/post?page=1&size=10&order=time&community_id=5
 	req := &models.PostListProReq{
 		Page:  1,
 		Size:  10,
@@ -62,19 +46,19 @@ func (PostController) ListPro(c *gin.Context) {
 		logger.Log.Error("请求参数有误")
 		return
 	}
-	var serv service.PostService
-	serv.ListPro(c, req)
 
+	var serv service.PostService
+	serv.List(c, req)
 }
 
 func (PostController) Info(c *gin.Context) {
 	rId := c.Param("id")
+
 	var serv service.PostService
 	serv.Info(c, rId)
 }
 
 func (PostController) Vote(c *gin.Context) {
-	//	参数校验
 	var req *models.VoteReq
 	if err := c.ShouldBindJSON(&req); err != nil {
 		if errs, ok := err.(validator.ValidationErrors); ok { // 类型断言
@@ -91,8 +75,6 @@ func (PostController) Vote(c *gin.Context) {
 		return
 	}
 
-	//
 	var serv service.PostService
 	serv.Vote(c, userID, req)
-	//
 }
