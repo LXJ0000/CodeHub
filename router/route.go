@@ -2,8 +2,11 @@ package router
 
 import (
 	"bluebell/controllers"
+	_ "bluebell/docs" // 千万不要忘了导入把你上一步生成的docs
 	"bluebell/middleware"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	gs "github.com/swaggo/gin-swagger"
 	"net/http"
 )
 
@@ -22,6 +25,7 @@ func Init(mode string) *gin.Engine {
 			"msg": "404",
 		})
 	})
+	r.GET("/swagger/*any", gs.WrapHandler(swaggerFiles.Handler))
 
 	v1 := r.Group("/api/v1")
 	{

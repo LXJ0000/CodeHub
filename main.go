@@ -11,6 +11,21 @@ import (
 	"fmt"
 )
 
+// @title BlueBell API Doc
+// @version 1.0
+// @description API Doc
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name Jannan
+// @contact.url https://www.jannan.top/
+// @contact.email 1227891082@qq.com
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host 127.0.0.1:80
+// @BasePath /
+
 func main() {
 	conf.Init()
 	logger.Init()

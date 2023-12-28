@@ -34,6 +34,17 @@ func (PostController) Create(c *gin.Context) {
 	serv.Create(c, req, authorId)
 }
 
+// List 帖子列表
+// @Summary 帖子列表接口
+// @Description 可按社区分类，按时间或分数排序查询帖子列表
+// @Tags 帖子相关接口
+// @Accept application/json
+// @Produce application/json
+// @Param Authorization header string true "Bearer 用户令牌"
+// @Param object query models.PostListProReq false "查询参数"
+// @Security ApiKeyAuth
+// @Success 200 {object} _PostListResp
+// @Router / [get]
 func (PostController) List(c *gin.Context) {
 	// GET /api/v1/post?page=1&size=10&order=time&community_id=5
 	req := &models.PostListProReq{

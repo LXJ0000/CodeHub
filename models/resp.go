@@ -45,6 +45,3 @@ type PostInfoResp struct {
 	*PostResp
 	*CommunityInfoResp `json:"community"`
 }
-
-type PostInfoProResp struct {
-}
