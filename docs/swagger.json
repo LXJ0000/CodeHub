@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "description": "API Doc",
-        "title": "bluebell API Doc",
+        "title": "BlueBell API Doc",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "Jannan",
@@ -18,7 +18,7 @@
     "host": "127.0.0.1:80",
     "basePath": "/",
     "paths": {
-        "/": {
+        "/api/v1/post": {
             "get": {
                 "security": [
                     {
@@ -53,7 +53,7 @@
                     {
                         "type": "string",
                         "example": "score",
-                        "description": "排序依据：order || time 可以为空",
+                        "description": "排序依据：score || time 可以为空",
                         "name": "order",
                         "in": "query"
                     },

@@ -44,7 +44,7 @@ func (PostController) Create(c *gin.Context) {
 // @Param object query models.PostListProReq false "查询参数"
 // @Security ApiKeyAuth
 // @Success 200 {object} _PostListResp
-// @Router / [get]
+// @Router /api/v1/post [get]
 func (PostController) List(c *gin.Context) {
 	// GET /api/v1/post?page=1&size=10&order=time&community_id=5
 	req := &models.PostListProReq{
@@ -62,6 +62,7 @@ func (PostController) List(c *gin.Context) {
 	serv.List(c, req)
 }
 
+// Info 帖子详细信息
 func (PostController) Info(c *gin.Context) {
 	rId := c.Param("id")
 

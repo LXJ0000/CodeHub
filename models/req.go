@@ -46,6 +46,6 @@ type VoteReq struct {
 type PostListProReq struct {
 	Page        int64  `form:"page" example:"1"`      // 页码 可以为空
 	Size        int64  `form:"size" example:"5"`      // 每一页的数量 可以为空
-	Order       string `form:"order" example:"score"` // 排序依据：order || time 可以为空
+	Order       string `form:"order" example:"score"` // 排序依据：score || time 可以为空
 	CommunityID int64  `form:"community_id"`          // 是否按社区排序 可以为空
 }

@@ -24,7 +24,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/": {
+        "/api/v1/post": {
             "get": {
                 "security": [
                     {
@@ -59,7 +59,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "example": "score",
-                        "description": "排序依据：order || time 可以为空",
+                        "description": "排序依据：score || time 可以为空",
                         "name": "order",
                         "in": "query"
                     },
@@ -201,7 +201,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "127.0.0.1:80",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "bluebell API Doc",
+	Title:            "BlueBell API Doc",
 	Description:      "API Doc",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

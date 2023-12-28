@@ -34,6 +34,8 @@ func main() {
 	redis.Init()
 	validator.InitTrans("zh") // todo add config file
 
+	logger.Log.Info("Swagger Doc in: http://127.0.0.1/swagger/index.html#/")
+
 	r := router.Init(conf.Conf.Mode)
 	_ = r.Run(fmt.Sprintf(":%d", conf.Conf.Port))
 }
