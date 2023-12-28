@@ -18,9 +18,11 @@ func (PostController) Create(c *gin.Context) {
 	if err := c.ShouldBindJSON(&req); err != nil {
 		if errs, ok := err.(validator.ValidationErrors); ok {
 			types.ResponseErrorWithMsg(c, types.CodeInvalidParams, valid.RemoveTopStruct(errs.Translate(valid.Trans)))
+			logger.Log.Error("帖子创建失败：请求参数有误")
 			return
 		}
 		types.ResponseError(c, types.CodeInvalidParams)
+		logger.Log.Error("帖子创建失败：请求参数有误")
 		return
 	}
 	authorId, err := getCurrentUser(c)
