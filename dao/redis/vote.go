@@ -50,6 +50,13 @@ func VoteForPost(c *gin.Context, userRID int64, req *models.VoteReq) {
 	key := KeyPostVotedPrefix + postID
 	currDirection := client.ZScore(key, userID).Val() // 获取当前投票状态
 
+	//若出现重复投票的情况
+	if currDirection == float64(req.Direction) {
+		logger.Log.Error("不允许重复投票")
+		types.ResponseError(c, types.CodeVoteRepeated)
+		return
+	}
+
 	var scoreDirection float64
 	if float64(req.Direction) > currDirection {
 		scoreDirection = 1 // 加分

@@ -21,6 +21,7 @@ const (
 
 	CodeInvalidPostId
 	CodeVoteTimeExpire
+	CodeVoteRepeated
 )
 
 var codeMsgMap = map[Code]string{
@@ -35,6 +36,7 @@ var codeMsgMap = map[Code]string{
 	CodeInvalidCommunityId: "无效的社区ID",
 	CodeInvalidPostId:      "无效的帖子ID",
 	CodeVoteTimeExpire:     "投票时间已过",
+	CodeVoteRepeated:       "不允许重复投票",
 }
 
 func getMsg(code Code) string {
