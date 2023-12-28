@@ -2,6 +2,7 @@ package redis
 
 import (
 	"bluebell/models"
+	"github.com/go-redis/redis"
 	"sync"
 )
 
@@ -30,5 +31,29 @@ func (PostDao) GetPostIDInorder(req *models.PostListProReq) (ids []string, err e
 	end := (req.Page-1)*req.Size + req.Size - 1
 	//按照 从大到小 查询 指定数量
 	ids, err = client.ZRevRange(key, start, end).Result()
+	return
+}
+
+func (PostDao) GetPostVoteScore(ids []string) (scores []int64, err error) {
+	//for _, id := range ids {
+	//	key := KeyPostVotedPrefix + id
+	//	//查找key中 投赞成票的数量
+	//	scores = append(scores, client.ZCount(key, "1", "1").Val())
+	//}
+	//优化
+	//使用pipeline一次发送多条命令 减少RTT
+	pipeline := client.Pipeline()
+	for _, id := range ids {
+		key := KeyPostVotedPrefix + id
+		pipeline.ZCount(key, "1", "1")
+	}
+	cmders, err := pipeline.Exec()
+	if err != nil {
+		return
+	}
+	for _, cmder := range cmders {
+		val := cmder.(*redis.IntCmd).Val()
+		scores = append(scores, val)
+	}
 	return
 }

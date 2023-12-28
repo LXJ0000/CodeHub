@@ -51,7 +51,7 @@ func (PostController) List(c *gin.Context) {
 //  3. 根据post_id去数据库查询帖子详细信息
 func (PostController) ListPro(c *gin.Context) {
 	// /api/v1/post-pro?page=1&size=10&order=time
-	//默认
+	// 默认值
 	req := &models.PostListProReq{
 		Page:  1,
 		Size:  10,

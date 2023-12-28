@@ -85,7 +85,16 @@ func (PostService) ListPro(c *gin.Context, req *models.PostListProReq) {
 	var posts []*models.PostInfoResp
 	authorDao := mysql.NewUserDao()
 	communityDao := mysql.NewCommunityDao()
-	for _, post := range list {
+
+	//查询post's score
+	scores, err := postDao.GetPostVoteScore(ids)
+	if err != nil {
+		logger.Log.Error("Redis 查询失败")
+		types.ResponseError(c, types.CodeServerBusy)
+		return
+	}
+	//查询详细信息
+	for index, post := range list {
 		authorName, _ := authorDao.GetUserName(post.AuthorID)
 		community, _ := communityDao.GetInfo(post.CommunityID)
 		info := &models.PostInfoResp{
@@ -93,13 +102,14 @@ func (PostService) ListPro(c *gin.Context, req *models.PostListProReq) {
 			PostResp:          post,
 			CommunityInfoResp: community,
 		}
+		info.Score = scores[index]
 		posts = append(posts, info)
 	}
 
 	//
 	total, _ := postSqlDao.GetCountByCondition(nil)
 
-	types.ResponseSuccessWithList(c, total, list)
+	types.ResponseSuccessWithList(c, total, posts)
 }
 
 func (PostService) Info(c *gin.Context, rId string) {
@@ -118,11 +128,21 @@ func (PostService) Info(c *gin.Context, rId string) {
 	authorName, _ := authorDao.GetUserName(post.AuthorID)
 	community, _ := communityDao.GetInfo(post.CommunityID)
 
+	//Redis查询分数
+	postRdbDao := redis.NewPostDao()
+	score, err := postRdbDao.GetPostVoteScore([]string{rId})
+	if err != nil {
+		logger.Log.Error("Redis 查询失败")
+		types.ResponseError(c, types.CodeServerBusy)
+		return
+	}
+
 	info := &models.PostInfoResp{
 		AuthorName:        authorName,
 		PostResp:          post,
 		CommunityInfoResp: community,
 	}
+	info.Score = score[0]
 
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {

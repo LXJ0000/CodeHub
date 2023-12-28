@@ -17,7 +17,7 @@ type UserInfoResp struct {
 //社区
 
 type CommunityResp struct {
-	CommunityID   int64  `json:"community_idg"`
+	CommunityID   int64  `json:"community_id"`
 	CommunityName string `json:"community_name"`
 }
 
@@ -41,6 +41,7 @@ type PostResp struct {
 
 type PostInfoResp struct {
 	AuthorName string `json:"author_name"`
+	Score      int64  `json:"score"`
 	*PostResp
 	*CommunityInfoResp `json:"community"`
 }
