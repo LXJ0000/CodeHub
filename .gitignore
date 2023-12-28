@@ -25,4 +25,4 @@ bluebell_backend
 
 *.bat
 
-*.yaml
+config.yaml

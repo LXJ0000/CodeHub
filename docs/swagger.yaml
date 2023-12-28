@@ -1,0 +1,133 @@
+basePath: /
+definitions:
+  controllers._PostListResp:
+    properties:
+      code:
+        allOf:
+        - $ref: '#/definitions/types.Code'
+        description: 业务响应状态码
+      data:
+        description: 数据
+        items:
+          $ref: '#/definitions/models.PostInfoResp'
+        type: array
+      message:
+        description: 业务响应状态码
+    type: object
+  models.CommunityInfoResp:
+    properties:
+      community_id:
+        type: integer
+      community_name:
+        type: string
+      introduction:
+        type: string
+    type: object
+  models.PostInfoResp:
+    properties:
+      author_id:
+        example: "0"
+        type: string
+      author_name:
+        type: string
+      community:
+        $ref: '#/definitions/models.CommunityInfoResp'
+      community_id:
+        type: integer
+      content:
+        type: string
+      created_at:
+        type: integer
+      post_id:
+        example: "0"
+        type: string
+      score:
+        type: integer
+      title:
+        type: string
+    type: object
+  types.Code:
+    enum:
+    - 1000
+    - 1001
+    - 1002
+    - 1003
+    - 1004
+    - 1005
+    - 1006
+    - 1007
+    - 1008
+    - 1009
+    - 1010
+    - 1011
+    type: integer
+    x-enum-varnames:
+    - CodeSUCCESS
+    - CodeInvalidParams
+    - CodeUserExist
+    - CodeUserNotExist
+    - CodeInvalidPassword
+    - CodeServerBusy
+    - CodeNeedLogin
+    - CodeInvalidToken
+    - CodeInvalidCommunityId
+    - CodeInvalidPostId
+    - CodeVoteTimeExpire
+    - CodeVoteRepeated
+host: 127.0.0.1:80
+info:
+  contact:
+    email: 1227891082@qq.com
+    name: Jannan
+    url: https://www.jannan.top/
+  description: API Doc
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: BlueBell API Doc
+  version: "1.0"
+paths:
+  /api/v1/post:
+    get:
+      consumes:
+      - application/json
+      description: 可按社区分类，按时间或分数排序查询帖子列表
+      parameters:
+      - description: Bearer 用户令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 是否按社区排序 可以为空
+        in: query
+        name: community_id
+        type: integer
+      - description: 排序依据：score || time 可以为空
+        example: score
+        in: query
+        name: order
+        type: string
+      - description: 页码 可以为空
+        example: 1
+        in: query
+        name: page
+        type: integer
+      - description: 每一页的数量 可以为空
+        example: 5
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers._PostListResp'
+      security:
+      - ApiKeyAuth: []
+      summary: 帖子列表接口
+      tags:
+      - 帖子相关接口
+swagger: "2.0"
