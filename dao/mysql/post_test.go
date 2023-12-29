@@ -1,13 +1,12 @@
 package mysql
 
 import (
-	"bluebell/conf"
 	"bluebell/models"
 	"testing"
 )
 
 func TestPostDao_Create(t *testing.T) {
-	conf.Init()
+	//conf.Init()
 	Init()
 	postDao := NewPostDao()
 	post := &models.PostModel{
