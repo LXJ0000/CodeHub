@@ -1,5 +1,5 @@
 mode: "dev"
-port: 80
+port: 8080
 start_time: "2023-01-01"
 machine_id: 1
 

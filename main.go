@@ -2,8 +2,6 @@ package main
 
 import (
 	"bluebell/conf"
-	"bluebell/dao/mysql"
-	"bluebell/dao/redis"
 	"bluebell/pkg/logger"
 	"bluebell/pkg/snowflake"
 	"bluebell/pkg/validator"
@@ -24,7 +22,7 @@ import (
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host 127.0.0.1:80
+// @host 127.0.0.1:8080
 // @BasePath /
 
 const defaultConfFile = "./conf/config.yaml"
@@ -44,8 +42,8 @@ func main() {
 
 	snowflake.Init(conf.Conf.StartTime, conf.Conf.MachineID)
 
-	mysql.Init()
-	redis.Init()
+	//mysql.Init()
+	//redis.Init()
 
 	validator.InitTrans("zh") // todo add config file
 
