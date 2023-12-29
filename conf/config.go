@@ -51,8 +51,8 @@ type Auth struct {
 	Secret string `mapstructure:"secret"`
 }
 
-func Init() {
-	viper.SetConfigFile("./conf/config.yaml") // 指定配置文件路径
+func Init(confFile string) {
+	viper.SetConfigFile(confFile) // 指定配置文件路径
 	// 读取配置信息
 	if err := viper.ReadInConfig(); err != nil { // 读取配置信息失败
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))

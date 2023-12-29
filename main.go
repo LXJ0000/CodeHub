@@ -9,6 +9,7 @@ import (
 	"bluebell/pkg/validator"
 	"bluebell/router"
 	"fmt"
+	"os"
 )
 
 // @title BlueBell API Doc
@@ -26,12 +27,26 @@ import (
 // @host 127.0.0.1:80
 // @BasePath /
 
+const defaultConfFile = "./conf/config.yaml"
+
 func main() {
-	conf.Init()
+	confFile := defaultConfFile
+	if len(os.Args) > 2 {
+		fmt.Println("use specified conf file: ", os.Args[1])
+		confFile = os.Args[1]
+	} else {
+		fmt.Println("no configuration file was specified, use ./conf/config.ini")
+
+	}
+	conf.Init(confFile)
+
 	logger.Init()
+
 	snowflake.Init(conf.Conf.StartTime, conf.Conf.MachineID)
+
 	mysql.Init()
 	redis.Init()
+
 	validator.InitTrans("zh") // todo add config file
 
 	logger.Log.Info("Swagger Doc in: http://127.0.0.1/swagger/index.html#/")
