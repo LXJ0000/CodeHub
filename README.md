@@ -19,8 +19,20 @@
 - Logrus
 - Mysql
 - Redis
+- Docker
 - ......
 
 其他：
 - 
-https://github.com/szluyu99/gin-vue-blog/tree/main/deploy/start
+
+
+## 后续计划
+### 高优先级
+- 使用 Nginx 部署
+- 使用 RefreshToken 刷新 AccessToken 模式
+- 限制账号同一时间只能登陆一个设备
+### 其他
+- 写一份好的 README
+- 完善单元测试
+- 完善 Swagger 文档
+- 设计前端
