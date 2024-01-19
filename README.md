@@ -29,6 +29,11 @@ CodeHub 是一个模仿 Stack Overflow 的论坛网站，提供一个高效、�
 - 基于 JWT 进行用户身份认证
 - ......
 
+## 项目启动
+```bash
+docker-compose up
+```
+
 ## 后续计划
 ### 高优先级
 - 使用 Nginx 部署

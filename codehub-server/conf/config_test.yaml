@@ -5,12 +5,12 @@ machine_id: 1
 
 log:
   level: "debug"
-  filename: "./log/bluebell.log"
+  filename: "./log/codehub.log"
   show_line: true
-  prefix: "bluebell"
+  prefix: "codehub"
 
 mysql:
-  host: mysql8019
+  host: 127.0.0.1
   port: 3306
   user: root
   password: root1234

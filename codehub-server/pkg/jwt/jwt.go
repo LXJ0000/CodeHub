@@ -32,7 +32,7 @@ func ParseToken(tokenString string) (*MyClaims, error) {
 		return []byte(conf.Conf.Auth.Secret), nil
 	})
 	if err != nil {
-		return nil, err
+		return nil, errors.New("invalid token")
 	}
 	if claims, ok := token.Claims.(*MyClaims); ok && token.Valid {
 		return claims, nil

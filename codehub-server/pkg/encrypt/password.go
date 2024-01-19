@@ -7,7 +7,7 @@ import (
 
 const secret = "jannan"
 
-// GetPassword 获取密码MD5
+// GetPassword 哈希获取密码MD5
 func GetPassword(password string) string {
 	h := md5.New()
 	h.Write([]byte(secret))
