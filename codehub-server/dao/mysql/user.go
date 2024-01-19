@@ -26,7 +26,7 @@ func (u *UserDao) CheckUserExist(username string) (bool, *models.UserModel) {
 	err := db.Where("user_name=?", username).First(&user).Error
 	//err == nil 则用户名存在 则返回 true
 	//否则返回false
-	if err == nil {
+	if err == nil && user != nil {
 		return true, user
 	}
 	return false, nil
@@ -38,7 +38,9 @@ func (u *UserDao) Create(user *models.UserModel) error {
 }
 
 func (u *UserDao) GetInfo(uid int64) (user *models.UserInfoResp, err error) {
-	err = db.Model(&models.UserModel{}).Where("user_id=?", uid).First(&user).Error
+	if err = db.Model(&models.UserModel{}).Where("user_id=?", uid).First(&user).Error; err != nil {
+		return nil, err
+	}
 	return
 }
 func (u *UserDao) GetUserName(uid int64) (username string, err error) {
